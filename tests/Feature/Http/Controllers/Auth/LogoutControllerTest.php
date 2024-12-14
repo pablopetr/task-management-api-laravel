@@ -33,5 +33,8 @@ class LogoutControllerTest extends TestCase
         $this->post(route('logout'), [], ['Authorization' => "Bearer $token"])
             ->assertStatus(200)
             ->assertJson(['message' => 'Successfully logged out']);
+
+        $this->post(route('me'), [], ['Authorization' => "Bearer $token"])
+            ->assertStatus(405);
     }
 }

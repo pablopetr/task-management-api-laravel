@@ -16,6 +16,6 @@ Route::group([
     Route::post('/logout', LogoutController::class)->name('logout');
 });
 
-Route::get('/me', ProfileController::class)
-    ->middleware('auth')
-    ->name('protected');
+Route::group(['middleware' => 'auth'], function () {
+    Route::get('/me', ProfileController::class)->name('me');
+});
