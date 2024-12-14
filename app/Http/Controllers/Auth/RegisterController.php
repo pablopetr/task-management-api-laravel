@@ -1,8 +1,10 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Auth;
 
+use App\Http\Controllers\Controller;
 use App\Http\Requests\RegisterRequest;
+use App\Http\Resources\UserResource;
 use App\Models\User;
 
 class RegisterController extends Controller
@@ -15,6 +17,6 @@ class RegisterController extends Controller
             'password' => $request['password'],
         ]);
 
-        return response()->json(['message' => 'User registered successfully!', 'user' => $user], 201);
+        return response()->json(['message' => 'User registered successfully!', 'user' => UserResource::make($user)], 201);
     }
 }
