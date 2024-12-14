@@ -42,6 +42,7 @@ class RegisterControllerTest extends TestCase
         ])
             ->assertStatus(422)
             ->assertJson([
+                'message' => 'Validation Error',
                 'errors' => [
                     $field => [__($expectedMessage, array_merge(['attribute' => $field], $params))],
                 ],
@@ -59,6 +60,7 @@ class RegisterControllerTest extends TestCase
         ])
             ->assertStatus(422)
             ->assertJson([
+                'message' => 'Validation Error',
                 'errors' => [
                     'password' => [__('validation.confirmed', ['attribute' => 'password'])],
                 ],

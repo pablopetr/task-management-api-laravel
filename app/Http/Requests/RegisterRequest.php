@@ -14,9 +14,4 @@ class RegisterRequest extends FormRequest
             'password' => ['required', 'string', 'min:8', 'max:255', 'confirmed'],
         ];
     }
-
-    public function authorize(): bool
-    {
-        return true;
-    }
 }
