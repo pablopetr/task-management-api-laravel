@@ -16,6 +16,10 @@ Route::group([
     Route::post('/logout', LogoutController::class)->name('logout');
 });
 
+
+
 Route::group(['middleware' => 'auth'], function () {
     Route::get('/me', ProfileController::class)->name('me');
+
+    Route::post('/tasks', \App\Http\Controllers\Task\CreateTaskController::class)->name('tasks.create');
 });

@@ -11,13 +11,8 @@ class Task extends Model
     use SoftDeletes;
 
     protected $fillable = [
-        'assigned_user_id',
+        'user_id',
         'title',
         'description',
     ];
-
-    public function assignedUser(): BelongsTo
-    {
-        return $this->belongsTo(User::class, 'assigned_user_id');
-    }
 }

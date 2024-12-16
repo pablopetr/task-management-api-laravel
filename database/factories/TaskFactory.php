@@ -18,7 +18,7 @@ class TaskFactory extends Factory
             'description' => $this->faker->text(),
             'created_at' => Carbon::now(),
             'updated_at' => Carbon::now(),
-            'assigned_user_id' => User::factory(),
+            'user_id' => User::factory(),
         ];
     }
 }
