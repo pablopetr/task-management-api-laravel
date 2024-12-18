@@ -21,15 +21,24 @@ class UpdateTest extends TestCase
     {
         parent::setUp();
 
-        $this->user = User::factory()->create();
+        $this->user = User::factory()->admin()->create();
         $this->task = Task::factory()->create();
     }
 
     #[Test]
-    public function it_should_not_be_authorized_to_update_a_task(): void
+    public function it_should_not_authorize_guests_to_update_a_task(): void
     {
         $this->put(route('tasks.update', ['task' => $this->task->id]))
             ->assertUnauthorized();
+    }
+
+    #[Test]
+    public function it_should_not_authorize_non_admin_user_to_create_a_task(): void
+    {
+        $user = User::factory()->create();
+
+        $this->put(route('tasks.update', ['task' => $this->task->id]), [], authorization($user))
+            ->assertForbidden();
     }
 
     #[Test]

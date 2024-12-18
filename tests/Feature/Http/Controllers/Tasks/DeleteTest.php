@@ -22,16 +22,24 @@ class DeleteTest extends TestCase
     {
         parent::setUp();
 
-        $this->user = User::factory()->create();
-
+        $this->user = User::factory()->admin()->create();
         $this->task = Task::factory()->create();
     }
 
     #[Test]
-    public function it_should_not_be_authorized_to_delete_a_task(): void
+    public function it_should_allow_guests_delete_a_task(): void
     {
-        $this->delete(route('tasks.destroy', ['task' => $this->task->id]))
+        $this->delete(route('tasks.destroy', ['task' => $this->task->id]), [], [])
             ->assertUnauthorized();
+    }
+
+    #[Test]
+    public function it_should_not_authorize_non_admin_user_to_create_a_task(): void
+    {
+        $this->user = User::factory()->create();
+
+        $this->delete(route('tasks.destroy', ['task' => $this->task->id]), [], authorization($this->user))
+            ->assertForbidden();
     }
 
     #[Test]

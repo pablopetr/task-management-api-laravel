@@ -16,17 +16,26 @@ class StoreTest extends TestCase
 
     public array $authorization = [];
 
-    public function setUp(): void
+    protected function setUp(): void
     {
         parent::setUp();
 
-        $this->user = User::factory()->create();
+        $this->user = User::factory()->admin()->create();
     }
 
     #[Test]
     public function it_should_not_be_authorized_to_create_a_task(): void
     {
         $this->post(route('tasks.store'))
+            ->assertUnauthorized();
+    }
+
+    #[Test]
+    public function it_should_not_authorize_guests_to_create_a_task(): void
+    {
+        $user = User::factory()->create();
+
+        $this->post(route('tasks.store'), authorization($user))
             ->assertUnauthorized();
     }
 
