@@ -12,6 +12,17 @@ class StoreTest extends TestCase
 {
     use RefreshDatabase;
 
+    public User $user;
+
+    public array $authorization = [];
+
+    public function setUp(): void
+    {
+        parent::setUp();
+
+        $this->user = User::factory()->create();
+    }
+
     #[Test]
     public function it_should_not_be_authorized_to_create_a_task(): void
     {
@@ -23,13 +34,10 @@ class StoreTest extends TestCase
     #[DataProvider('validationProvider')]
     public function it_should_validate_fields($field, $value, $rule): void
     {
-        $user = User::factory()->create();
-
-        $token = auth()->login($user);
 
         $response = $this->post(route('tasks.store'), [
             $field => $value,
-        ], ['Authorization' => "Bearer $token"]);
+        ], authorization($this->user));
 
         $response->assertStatus(422);
         $response->assertJsonFragment([
@@ -41,15 +49,11 @@ class StoreTest extends TestCase
     #[Test]
     public function it_should_be_able_to_create_a_task(): void
     {
-        $user = User::factory()->create();
-
-        $token = auth()->login($user);
-
         $response = $this->post(route('tasks.store'), [
-            'user_id' => $user->id,
+            'user_id' => $this->user->id,
             'title' => 'Task Title',
             'description' => 'Task Description',
-        ], ['Authorization' => "Bearer $token"]);
+        ], authorization($this->user));
 
         $response->assertCreated();
     }

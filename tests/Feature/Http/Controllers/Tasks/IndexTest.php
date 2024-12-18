@@ -17,23 +17,18 @@ class IndexTest extends TestCase
 
     public Task $task;
 
-    public string $token;
-
     protected function setUp(): void
     {
         parent::setUp();
 
         $this->user = User::factory()->create();
-
         $this->task = Task::factory()->create();
-
-        $this->token = auth()->login($this->user);
     }
 
     #[Test]
     public function it_should_be_able_to_get_tasks_paginated(): void
     {
-        $response = $this->get(route('tasks.index'), ['Authorization' => "Bearer $this->token"])
+        $response = $this->get(route('tasks.index'), authorization($this->user))
             ->assertOk();
 
         $response->assertJsonCount(1, 'data');
@@ -54,24 +49,24 @@ class IndexTest extends TestCase
     {
         $tasks = Task::factory()->count(20)->create();
 
-        $this->get(route('tasks.index'), ['Authorization' => "Bearer $this->token"])
+        $this->get(route('tasks.index'), authorization($this->user))
             ->assertOk()
             ->assertJsonCount(20, 'data');
 
-        $this->get(route('tasks.index', ['page' => 2]), ['Authorization' => "Bearer $this->token"])
+        $this->get(route('tasks.index', ['page' => 2]), authorization($this->user))
             ->assertOk()
             ->assertJsonCount(1, 'data');
 
         Carbon::now()->addDay();
         $lastTask = Task::factory()->create(['title' => 'My latest task']);
 
-        $response = $this->get(route('tasks.index', ['page' => 1]), ['Authorization' => "Bearer $this->token"])
+        $response = $this->get(route('tasks.index', ['page' => 1]), authorization($this->user))
             ->assertOk()
             ->assertJsonCount(20, 'data');
 
         $this->assertEquals($lastTask->id, $response['data'][0]['id']);
 
-        $response = $this->get(route('tasks.index', ['page' => 1]), ['Authorization' => "Bearer $this->token"])
+        $response = $this->get(route('tasks.index', ['page' => 1]), authorization($this->user))
             ->assertOk()
             ->assertJsonCount(20, 'data');
 

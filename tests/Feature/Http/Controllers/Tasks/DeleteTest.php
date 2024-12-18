@@ -16,7 +16,7 @@ class DeleteTest extends TestCase
 
     public Task $task;
 
-    public string $token;
+    public array $authorization;
 
     protected function setUp(): void
     {
@@ -25,8 +25,6 @@ class DeleteTest extends TestCase
         $this->user = User::factory()->create();
 
         $this->task = Task::factory()->create();
-
-        $this->token = auth()->login($this->user);
     }
 
     #[Test]
@@ -39,7 +37,7 @@ class DeleteTest extends TestCase
     #[Test]
     public function it_should_be_able_to_delete_a_task(): void
     {
-        $this->delete(route('tasks.destroy', ['task' => $this->task->id]), [], ['Authorization' => "Bearer $this->token"])
+        $this->delete(route('tasks.destroy', ['task' => $this->task->id]), [], authorization($this->user))
             ->assertNoContent();
     }
 }

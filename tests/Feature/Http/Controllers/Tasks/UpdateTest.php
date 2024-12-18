@@ -17,16 +17,12 @@ class UpdateTest extends TestCase
 
     public Task $task;
 
-    public string $token;
-
     protected function setUp(): void
     {
         parent::setUp();
 
         $this->user = User::factory()->create();
         $this->task = Task::factory()->create();
-
-        $this->token = auth()->login($this->user);
     }
 
     #[Test]
@@ -42,7 +38,7 @@ class UpdateTest extends TestCase
     {
         $response = $this->put(route('tasks.update', ['task' => $this->task->id]), [
             $field => $value,
-        ], ['Authorization' => "Bearer $this->token"]);
+        ], authorization($this->user));
 
         $response->assertStatus(422);
         $response->assertJsonFragment([
@@ -58,13 +54,11 @@ class UpdateTest extends TestCase
         $user = User::factory()->create();
         $task = Task::factory()->create(['user_id' => $user->id]);
 
-        $token = auth()->login($user);
-
         $this->put(route('tasks.update', ['task' => $task->id]), [
             'user_id' => $user->id,
             'title' => 'Task Title',
             'description' => 'Task Description',
-        ], ['Authorization' => "Bearer $token"])
+        ], authorization($this->user))
             ->assertOk();
     }
 
