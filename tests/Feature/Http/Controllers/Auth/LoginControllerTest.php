@@ -31,7 +31,7 @@ class LoginControllerTest extends TestCase
     #[Test]
     public function it_should_not_login_user_with_wrong_credentials(): void
     {
-        $user = User::factory()->create();
+        User::factory()->create();
 
         $this->post(route('login'), [
             'email' => 'johndoe@example.com',
@@ -51,7 +51,6 @@ class LoginControllerTest extends TestCase
     {
         $user = User::factory()->create(['password' => 'password']);
 
-        $response =
         $this->post(route('login'), [
             'email' => $user->email,
             'password' => 'password',

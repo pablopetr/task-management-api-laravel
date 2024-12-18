@@ -3,6 +3,7 @@
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Auth\LogoutController;
 use App\Http\Controllers\Auth\RegisterController;
+use App\Http\Controllers\Task\StoreController;
 use App\Http\Controllers\User\ProfileController;
 use Illuminate\Support\Facades\Route;
 
@@ -16,10 +17,8 @@ Route::group([
     Route::post('/logout', LogoutController::class)->name('logout');
 });
 
-
-
 Route::group(['middleware' => 'auth'], function () {
     Route::get('/me', ProfileController::class)->name('me');
 
-    Route::post('/tasks', \App\Http\Controllers\Task\CreateTaskController::class)->name('tasks.create');
+    Route::post('/tasks', StoreController::class)->name('tasks.create');
 });

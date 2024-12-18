@@ -3,13 +3,12 @@
 namespace App\Http\Controllers\Task;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\CreateTaskRequest;
+use App\Http\Requests\Task\StoreRequest;
 use App\Models\Task;
-use Illuminate\Http\Request;
 
-class CreateTaskController extends Controller
+class StoreController extends Controller
 {
-    public function __invoke(Request $request)
+    public function __invoke(StoreRequest $request)
     {
         $validated = $request->validate([
             'user_id' => ['required', 'integer', 'exists:users,id'],
@@ -20,6 +19,6 @@ class CreateTaskController extends Controller
         $task = Task::query()
             ->create($validated);
 
-        return response()->json($task);
+        return response()->json($task, 201);
     }
 }
