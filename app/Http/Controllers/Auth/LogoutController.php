@@ -14,8 +14,8 @@ class LogoutController extends Controller
         try {
 
             JWTAuth::invalidate(JWTAuth::getToken());
-        }  catch(TokenInvalidException $e) {
-          return response()->json(['message' => 'Already logged out'], 200);
+        } catch (TokenInvalidException $e) {
+            return response()->json(['message' => 'Already logged out'], 200);
         } catch (\Exception $e) {
             return response()->json(['message' => 'Failed to logout, please try again'], 419);
         }

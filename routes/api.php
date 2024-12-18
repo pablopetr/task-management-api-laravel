@@ -3,7 +3,7 @@
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Auth\LogoutController;
 use App\Http\Controllers\Auth\RegisterController;
-use App\Http\Controllers\Task\StoreController;
+use App\Http\Controllers\TaskController;
 use App\Http\Controllers\User\ProfileController;
 use Illuminate\Support\Facades\Route;
 
@@ -20,5 +20,5 @@ Route::group([
 Route::group(['middleware' => 'auth'], function () {
     Route::get('/me', ProfileController::class)->name('me');
 
-    Route::post('/tasks', StoreController::class)->name('tasks.create');
+    Route::apiResource('tasks', TaskController::class);
 });

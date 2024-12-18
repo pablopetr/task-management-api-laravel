@@ -8,35 +8,34 @@ use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\Attributes\Test;
 use Tests\TestCase;
 
-class CreateTaskControllerTest extends TestCase
+class StoreTest extends TestCase
 {
     use RefreshDatabase;
 
     #[Test]
     public function it_should_not_be_authorized_to_create_a_task(): void
     {
-        $this->post(route('tasks.create'))
+        $this->post(route('tasks.store'))
             ->assertUnauthorized();
     }
 
     #[Test]
     #[DataProvider('validationProvider')]
-    public function it_should_be_able_to_validate_fields($field, $value, $rule): void
+    public function it_should_validate_fields($field, $value, $rule): void
     {
         $user = User::factory()->create();
 
         $token = auth()->login($user);
 
-        $response = $this->post(route('tasks.create'), [
+        $response = $this->post(route('tasks.store'), [
             $field => $value,
         ], ['Authorization' => "Bearer $token"]);
-
 
         $response->assertStatus(422);
         $response->assertJsonFragment([
             'message' => 'Validation Error',
         ]);
-        $response->assertJsonPath("errors.$field.0", __('validation.' . $rule, ['attribute' => str_replace('_', ' ', $field)]));
+        $response->assertJsonPath("errors.$field.0", __('validation.'.$rule, ['attribute' => str_replace('_', ' ', $field)]));
     }
 
     #[Test]
@@ -46,8 +45,8 @@ class CreateTaskControllerTest extends TestCase
 
         $token = auth()->login($user);
 
-        $response = $this->post(route('tasks.create'), [
-           'user_id' => $user->id,
+        $response = $this->post(route('tasks.store'), [
+            'user_id' => $user->id,
             'title' => 'Task Title',
             'description' => 'Task Description',
         ], ['Authorization' => "Bearer $token"]);
