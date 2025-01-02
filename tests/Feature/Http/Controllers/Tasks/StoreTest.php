@@ -48,7 +48,7 @@ class StoreTest extends TestCase
             $field => $value,
         ], authorization($this->user));
 
-        $response->assertStatus(422);
+        $response->assertUnprocessable();
         $response->assertJsonFragment([
             'message' => 'Validation Error',
         ]);

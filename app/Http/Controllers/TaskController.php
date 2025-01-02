@@ -16,8 +16,8 @@ class TaskController extends Controller
 
         $tasks = Task::query()
             ->orderBy('id', 'desc')
-            ->when($search, function (Builder $query) use($search) {
-                $query->where(function (Builder $query) use($search) {
+            ->when($search, function (Builder $query) use ($search) {
+                $query->where(function (Builder $query) use ($search) {
                     $query->where('title', 'like', "%$search%")
                         ->orWhere('description', 'like', "%$search%");
                 });

@@ -10,8 +10,6 @@ class CheckIsAdminMiddleware
 {
     public function handle(Request $request, Closure $next)
     {
-        ds(auth()->user());
-
         if (auth()->user()->role !== RoleEnum::ADMIN->value) {
             abort(403, 'Unauthorized');
         }

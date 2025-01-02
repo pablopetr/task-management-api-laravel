@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AssignTaskController;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Auth\LogoutController;
 use App\Http\Controllers\Auth\RegisterController;
@@ -21,6 +22,14 @@ Route::group([
 Route::group(['middleware' => 'auth'], function () {
     Route::get('/me', ProfileController::class)->name('me');
 
-    Route::apiResource('tasks', TaskController::class)
-        ->middleware(CheckIsAdminMiddleware::class);
+    Route::group([
+        'middleware' => [CheckIsAdminMiddleware::class],
+        'name' => 'tasks',
+        'prefix' => '/tasks',
+        'as' => 'tasks.',
+    ], function () {
+        Route::apiResource('/', TaskController::class);
+
+        Route::post('/assign-task', AssignTaskController::class)->name('assign-task');
+    });
 });

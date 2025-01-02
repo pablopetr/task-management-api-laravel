@@ -28,13 +28,13 @@ class ProfileControllerTest extends TestCase
         $this->get(route('me'), authorization($user))
             ->assertOk()
             ->assertJson([
-                    'id' => $user->id,
-                    'name' => $user->name,
-                    'email' => $user->email,
-                    'email_verified_at' => $user->email_verified_at->format('Y-m-d H:i:s'),
-                    'role' => $user->role,
-                    'created_at' => $user->created_at->format('Y-m-d H:i:s'),
-                    'updated_at' => $user->updated_at->format('Y-m-d H:i:s'),
-                ]);
+                'id' => $user->id,
+                'name' => $user->name,
+                'email' => $user->email,
+                'email_verified_at' => $user->email_verified_at->format('Y-m-d H:i:s'),
+                'role' => $user->role,
+                'created_at' => $user->created_at->format('Y-m-d H:i:s'),
+                'updated_at' => $user->updated_at->format('Y-m-d H:i:s'),
+            ]);
     }
 }
