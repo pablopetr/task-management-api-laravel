@@ -57,7 +57,6 @@ class AssignTaskControllerTest extends TestCase
         $user = User::factory()->create();
         $task = Task::factory()->create();
 
-
         $this->post(route('tasks.assign-task'), [
             'task_id' => $task->id,
             'user_id' => $user->id,

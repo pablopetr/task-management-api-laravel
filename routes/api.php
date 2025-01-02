@@ -4,6 +4,7 @@ use App\Http\Controllers\AssignTaskController;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Auth\LogoutController;
 use App\Http\Controllers\Auth\RegisterController;
+use App\Http\Controllers\Comments\IndexController;
 use App\Http\Controllers\GetMyPendingTasksController;
 use App\Http\Controllers\TaskController;
 use App\Http\Controllers\User\ProfileController;
@@ -23,6 +24,8 @@ Route::group([
 Route::group(['middleware' => 'auth'], function () {
     Route::get('/me', ProfileController::class)->name('me');
     Route::get('/my-tasks', GetMyPendingTasksController::class)->name('tasks.my-pending-tasks');
+
+    Route::get('/{task}/comments', IndexController::class)->name('tasks.comments');
 
     Route::group([
         'middleware' => [CheckIsAdminMiddleware::class],

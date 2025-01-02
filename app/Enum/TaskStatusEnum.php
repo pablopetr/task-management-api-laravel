@@ -8,7 +8,6 @@ enum TaskStatusEnum: string
     case IN_PROGRESS = 'In Progress';
     case DONE = 'Done';
 
-
     public static function toArray(): array
     {
         return [
@@ -25,4 +24,5 @@ enum TaskStatusEnum: string
             self::IN_PROGRESS->value,
             self::DONE->value,
         ];
-    }}
+    }
+}

@@ -33,14 +33,14 @@ class TaskFactory extends Factory
     public function inProgress(): static
     {
         return $this->state(fn (array $attributes) => [
-           'status' => TaskStatusEnum::IN_PROGRESS->value,
+            'status' => TaskStatusEnum::IN_PROGRESS->value,
         ]);
     }
 
     public function done(): static
     {
         return $this->state(fn (array $attributes) => [
-           'status' => TaskStatusEnum::DONE->value,
+            'status' => TaskStatusEnum::DONE->value,
         ]);
     }
 }
