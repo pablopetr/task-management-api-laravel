@@ -4,6 +4,7 @@ use App\Http\Controllers\AssignTaskController;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Auth\LogoutController;
 use App\Http\Controllers\Auth\RegisterController;
+use App\Http\Controllers\GetMyPendingTasksController;
 use App\Http\Controllers\TaskController;
 use App\Http\Controllers\User\ProfileController;
 use App\Http\Middleware\CheckIsAdminMiddleware;
@@ -21,6 +22,7 @@ Route::group([
 
 Route::group(['middleware' => 'auth'], function () {
     Route::get('/me', ProfileController::class)->name('me');
+    Route::get('/my-tasks', GetMyPendingTasksController::class)->name('tasks.my-pending-tasks');
 
     Route::group([
         'middleware' => [CheckIsAdminMiddleware::class],
